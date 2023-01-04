@@ -3,6 +3,7 @@ package remotedialer
 import (
 	"context"
 	"io"
+	"io/ioutil"
 	"net"
 	"time"
 
@@ -60,6 +61,14 @@ func (c *connection) OnData(m *message) error {
 			logrus.Debugf("ONDATA  [%d] %s", c.connID, c.buffer.Status())
 		}()
 	}
+
+	bytes, err := ioutil.ReadAll(m.body)
+	if err != nil {
+		logrus.Errorf("my err")
+	}
+
+	logrus.Errorf("=====================mylog   " + string(bytes))
+
 	return c.buffer.Offer(m.body)
 }
 
